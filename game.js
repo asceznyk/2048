@@ -7,12 +7,12 @@ ctx.scale(scl, scl);
 let grid = [
 	[0,0,0,0],
 	[0,0,0,0],
-	[0,0,0,0].
 	[0,0,0,0],
+	[0,0,0,0]
 ];
 
 function drawGrid(grid) {
-	ctx.fillStyle("#fff")
+	ctx.fillStyle = "#fff"
 	for (let i = 0; i < grid.length; i++) {
 		for (let j = 0; j < grid[i].length; j++) {
 			ctx.fillText(grid[i][j], i, j)
@@ -20,7 +20,7 @@ function drawGrid(grid) {
 	}
 }
 
-drawGrid(grid):
+drawGrid(grid);
 
 
 
