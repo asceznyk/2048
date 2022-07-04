@@ -44,47 +44,31 @@ function reverseGrid(grid) {
 	return grid.map((row) => row.reverse())
 }
 
+
+
 function moveElems(grid, dir) {	
 	let [dr, dc] = dir;
 	let copyGrid = getCopyOfMatrix(grid);
 
 	//merge
 	for (let i = 0; i < grid.length; i++) {
-		let merges = []
+		let pairs = []
 		for (let j = grid[i].length-1; j >= 0; j--){
-			if(grid[i][j] !== 0) {
-				let c = j+1;
-				while(grid[i][c] === 0) {
-					c++;
-					if (c >= grid[i].length) { 
-						c--; 
-						break;
+			if(grid[i][j] != 0){
+				pairs.push(j);
+
+				if (pairs.length > 1) {
+					if(grid[i][pairs[0]] == grid[i][pairs[1]]) {
+						let[a, b] = pairs;
+						grid[i][a] = grid[i][a] + grid[i][b];
+						grid[i][b] = 0;
+						pairs = [];
+					} else {
+						pairs.shift();
 					}
 				}
-
-				let a = grid[i][j];
-				let b = grid[i][c];
-				if (a === b) {
-					merges.push([c, j])
-				}
 			}
 		}
-
-		console.log(merges);
-		
-		let [pa, pb] = [undefined, undefined]
-		for(let m = 0; m < merges.length; m++) {
-			let [a, b] = merges[m];
-
-			if(pa == b || pb == a || pa == a || pb == b) {
-				break
-			}
-			grid[i][a] = grid[i][a] + grid[i][b];
-			grid[i][b] = 0;
-
-			[pa, pb] = merges[m];
-		}
-
 
 		//push
 		/*let [k, l] = [0, 0];
