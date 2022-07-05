@@ -44,13 +44,11 @@ function reverseGrid(grid) {
 	return grid.map((row) => row.reverse())
 }
 
+function transposeGrid(grid) {
+	return grid[0].map((_, colIndex) => grid.map(row => row[colIndex]));
+}
 
-
-function moveElems(grid, dir) {	
-	let [dr, dc] = dir;
-	let copyGrid = getCopyOfMatrix(grid);
-
-	//merge
+function moveElems(grid) {	
 	for (let i = 0; i < grid.length; i++) {
 		let pairs = []
 		for (let j = grid[i].length-1; j >= 0; j--){
@@ -70,25 +68,20 @@ function moveElems(grid, dir) {
 			}
 		}
 
-		//push
-		/*let [k, l] = [0, 0];
-		for(let j = grid[i].length-1; j >= 0; j--) {
-			if(copyGrid[i][j] !== 0) {
-				for (let c = j+1; c < grid[i].length;  c++) {
-					if(copyGrid[i][c] !== 0) {
-						k = j;
-						l = c;
-						break;
-					}
-				}
+		let zeroidx = null;
+		for (let j = grid[i].length-1; j >= 0; j--) {
+			if(grid[i][j] == 0 && zeroidx == null) {
+				zeroidx = j;
+			} else if(grid[i][j] != 0 && zeroidx != null) {
+				grid[i][zeroidx] = grid[i][j];
+				grid[i][j] = 0;
+				j = grid[i].length-1;
+				zeroidx = null;
 			}
-		}*/
-		//console.log(k, l);
-		//copyGrid[i][l] = copyGrid[i][k];
-		//copyGrid[i][k] = 0;
+		}
 	}
 
-	return grid //copyGrid
+	return grid 
 }
 
 //grid = initGrid(grid);
@@ -97,22 +90,30 @@ let grid = [
 	[2,0,2,2],
 	[0,2,2,4],
 	[2,2,4,4],
-	[4,2,2,0]
+	[4,0,2,2]
 ];
 
 drawGrid(grid);
 
 document.addEventListener('keydown', function(e) {
 	if(e.keyCode == 39) {
-		grid = moveElems(grid, [0, 1]);
+		grid = moveElems(grid);
 		drawGrid(grid);
 	} else if(e.keyCode == 37) {
 		grid = reverseGrid(grid);
-		grid = moveElems(grid, [0, 1]);
+		grid = moveElems(grid);
 		grid = reverseGrid(grid);
 		drawGrid(grid);
 	} else if (e.keyCode == 40) {
+		grid = transposeGrid(grid);
+		grid = moveElems(grid);
+		grid = transposeGrid(grid);
+		drawGrid(grid);
 	} else if (e.keyCode == 38) {
+		grid = reverseGrid(transposeGrid(grid));
+		grid = moveElems(grid);
+		grid = transposeGrid(reverseGrid(grid));
+		drawGrid(grid);
 	}
 })
 
