@@ -9,22 +9,18 @@ function getCopyOfMatrix(mat) {
   return mat.map(row => row.map(col => col))
 }
 
-function initGrid(grid) {
-	function getRandom(){
-		return Math.floor(Math.random() * grid.length);
+function randomNums(grid) {
+	let options = [];
+	for (let i = 0; i < grid.length; i++) {
+		for (let j = 0; j < grid.length; j++) {
+			if(grid[i][j] == 0) options.push([i, j])
+		}
 	}
 
-	let [i, j] = [getRandom(), getRandom()];
-	grid[i][j] = 2;
-
-	let x = getRandom();
-	let y = getRandom(); 
-
-	if(grid[x][y] !== 0) {
-		grid[i][j] = 0;
-		initGrid(grid);
-	} else{
-		grid[x][y] = 2;
+	if(options.length > 0) {
+		let r = Math.random() > 0.5 ? 2 : 4; 
+		let [x, y] = options[Math.floor(Math.random()*options.length)] 
+		grid[x][y] = r;
 	}
 
 	return grid;
@@ -84,35 +80,36 @@ function moveElems(grid) {
 	return grid 
 }
 
-//grid = initGrid(grid);
-
 let grid = [
-	[2,0,2,2],
-	[0,2,2,4],
-	[2,2,4,4],
-	[4,0,2,2]
+	[0,0,0,0],
+	[0,0,0,0],
+	[0,0,0,0],
+	[0,0,0,0]
 ];
-
+randomNums(grid);
+randomNums(grid);
 drawGrid(grid);
 
+codes = [39, 37, 40, 38]
 document.addEventListener('keydown', function(e) {
-	if(e.keyCode == 39) {
-		grid = moveElems(grid);
-		drawGrid(grid);
-	} else if(e.keyCode == 37) {
+	if(e.keyCode == codes[0]) {
+		grid = moveElems(grid);	
+	} else if(e.keyCode == codes[1]) {
 		grid = reverseGrid(grid);
 		grid = moveElems(grid);
 		grid = reverseGrid(grid);
-		drawGrid(grid);
-	} else if (e.keyCode == 40) {
+	} else if (e.keyCode == codes[2]) {
 		grid = transposeGrid(grid);
 		grid = moveElems(grid);
 		grid = transposeGrid(grid);
-		drawGrid(grid);
-	} else if (e.keyCode == 38) {
+	} else if (e.keyCode == codes[3]) {
 		grid = reverseGrid(transposeGrid(grid));
 		grid = moveElems(grid);
 		grid = transposeGrid(reverseGrid(grid));
+	}
+
+	if(codes.includes(e.keyCode)) {
+		grid = randomNums(grid);
 		drawGrid(grid);
 	}
 })
