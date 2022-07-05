@@ -1,10 +1,15 @@
 body, html {
 	margin : 0px;
+	font-family: system-ui;
+	font-size: 15px;
 }
 
 .wrapper {
 	max-width: 400px;
 	margin: 10px auto;
+}
+
+.header {
 }
 
 .container {
@@ -23,7 +28,6 @@ body, html {
 	display: inline-flex;
 	color: #fff;
 	font-size: 25px;
-	font-family: monospace;
 	justify-content: center;
 	align-items: center;
 }

@@ -1,12 +1,11 @@
 let container = document.getElementById("container");
 
-function intersection(a, b) {
-  b = new Set(b); 
-  return [...new Set(a)].filter(e => b.has(e));
-};
+function reverseGrid(grid) {
+	return grid.map((row) => row.reverse())
+}
 
-function getCopyOfMatrix(mat) {
-  return mat.map(row => row.map(col => col))
+function transposeGrid(grid) {
+	return grid[0].map((_, colIndex) => grid.map(row => row[colIndex]));
 }
 
 function randomNums(grid) {
@@ -24,24 +23,6 @@ function randomNums(grid) {
 	}
 
 	return grid;
-}
-
-function drawGrid(grid) {
-	container.innerHTML = '';
-	for (let i = 0; i < grid.length; i++) {
-		container.innerHTML += `<div class='row'></div>`;
-		for (let j = 0; j < grid[i].length; j++) {
-			container.innerHTML += `<div class='cell'>${grid[i][j]}</div>`;
-		}
-	}
-}
-
-function reverseGrid(grid) {
-	return grid.map((row) => row.reverse())
-}
-
-function transposeGrid(grid) {
-	return grid[0].map((_, colIndex) => grid.map(row => row[colIndex]));
 }
 
 function moveElems(grid) {	
@@ -78,6 +59,16 @@ function moveElems(grid) {
 	}
 
 	return grid 
+}
+
+function drawGrid(grid) {
+	container.innerHTML = '';
+	for (let i = 0; i < grid.length; i++) {
+		container.innerHTML += `<div class='row'></div>`;
+		for (let j = 0; j < grid[i].length; j++) {
+			container.innerHTML += `<div class='cell'>${grid[i][j]}</div>`;
+		}
+	}
 }
 
 let grid = [
