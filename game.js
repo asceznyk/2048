@@ -1,4 +1,7 @@
 let container = document.getElementById("container");
+let score = document.getElementById("score");
+let total = 0;
+let midxs = []
 
 function reverseGrid(grid) {
 	return grid.map((row) => row.reverse())
@@ -25,18 +28,29 @@ function randomNums(grid) {
 	return grid;
 }
 
-function moveElems(grid) {	
+function updateScore(grid, midxs) {
+	let s = 0;
+	for(let m = 0; m < midxs.length; m++) {
+		let [i, j] = midxs[m];
+		s += grid[i][j];
+	}
+	console.log(s)
+	return s;
+}
+
+function moveElems(grid) {
+	midxs = [];
 	for (let i = 0; i < grid.length; i++) {
 		let pairs = []
 		for (let j = grid[i].length-1; j >= 0; j--){
 			if(grid[i][j] != 0){
 				pairs.push(j);
-
 				if (pairs.length > 1) {
 					if(grid[i][pairs[0]] == grid[i][pairs[1]]) {
 						let[a, b] = pairs;
 						grid[i][a] = grid[i][a] + grid[i][b];
 						grid[i][b] = 0;
+						midxs.push([i, a]);
 						pairs = [];
 					} else {
 						pairs.shift();
@@ -58,7 +72,9 @@ function moveElems(grid) {
 		}
 	}
 
-	return grid 
+	total += updateScore(grid, midxs)
+
+	return grid; 
 }
 
 function drawGrid(grid) {
@@ -66,23 +82,13 @@ function drawGrid(grid) {
 	for (let i = 0; i < grid.length; i++) {
 		container.innerHTML += `<div class='row'></div>`;
 		for (let j = 0; j < grid[i].length; j++) {
-			container.innerHTML += `<div class='cell'>${grid[i][j]}</div>`;
+			let formatString = grid[i][j] == 0 ? `<div class='cell'>-</div>` : `<div class='cell'>${grid[i][j]}</div>`;
+			container.innerHTML += formatString;
 		}
 	}
 }
 
-let grid = [
-	[0,0,0,0],
-	[0,0,0,0],
-	[0,0,0,0],
-	[0,0,0,0]
-];
-randomNums(grid);
-randomNums(grid);
-drawGrid(grid);
-
-codes = [39, 37, 40, 38]
-document.addEventListener('keydown', function(e) {
+function updateGame(grid, e) { 
 	if(e.keyCode == codes[0]) {
 		grid = moveElems(grid);	
 	} else if(e.keyCode == codes[1]) {
@@ -99,9 +105,31 @@ document.addEventListener('keydown', function(e) {
 		grid = transposeGrid(reverseGrid(grid));
 	}
 
-	if(codes.includes(e.keyCode)) {
+	return grid;
+}
+
+let grid = [
+	[0,0,0,0],
+	[0,0,0,0],
+	[0,0,0,0],
+	[0,0,0,0]
+];
+
+
+randomNums(grid);
+randomNums(grid);
+drawGrid(grid);
+
+
+
+codes = [39, 37, 40, 38]
+document.addEventListener('keydown', function(e) {	
+	if(codes.includes(e.keyCode)) {	
+		grid = updateGame(grid, e);
 		grid = randomNums(grid);
 		drawGrid(grid);
+		console.log(midxs)
+		score.innerHTML = `Play 2048: ${total}`;
 	}
 })
 
