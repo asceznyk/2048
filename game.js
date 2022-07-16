@@ -34,7 +34,6 @@ function updateScore(grid, midxs) {
 		let [i, j] = midxs[m];
 		s += grid[i][j];
 	}
-	console.log(s)
 	return s;
 }
 
@@ -128,7 +127,6 @@ document.addEventListener('keydown', function(e) {
 		grid = updateGame(grid, e);
 		grid = randomNums(grid);
 		drawGrid(grid);
-		console.log(midxs)
 		score.innerHTML = `Play 2048: ${total}`;
 	}
 })
