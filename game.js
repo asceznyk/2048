@@ -7,7 +7,7 @@ function reverseGrid(grid) {
 	return grid.map((row) => row.reverse())
 }
 
-function transposeGrid(grid) {
+function transposePrimeGrid(grid) {
 	return grid[0].map((_, colIndex) => grid.map(row => row[colIndex]));
 }
 
@@ -95,13 +95,13 @@ function updateGame(grid, e) {
 		grid = moveElems(grid);
 		grid = reverseGrid(grid);
 	} else if (e.keyCode == codes[2]) {
-		grid = transposeGrid(grid);
+		grid = transposePrimeGrid(grid);
 		grid = moveElems(grid);
-		grid = transposeGrid(grid);
+		grid = transposePrimeGrid(grid);
 	} else if (e.keyCode == codes[3]) {
-		grid = reverseGrid(transposeGrid(grid));
+		grid = reverseGrid(transposePrimeGrid(grid));
 		grid = moveElems(grid);
-		grid = transposeGrid(reverseGrid(grid));
+		grid = transposePrimeGrid(reverseGrid(grid));
 	}
 
 	return grid;
