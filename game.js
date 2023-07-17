@@ -114,15 +114,12 @@ let grid = [
 	[0,0,0,0]
 ];
 
-
 randomNums(grid);
 randomNums(grid);
 drawGrid(grid);
 
-
-
 codes = [39, 37, 40, 38]
-document.addEventListener('keydown', function(e) {	
+document.addEventListener('keydown', function(e) {
 	if(codes.includes(e.keyCode)) {	
 		grid = updateGame(grid, e);
 		grid = randomNums(grid);
