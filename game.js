@@ -7,24 +7,20 @@ function reverseGrid(grid) {
 	return grid.map((row) => row.reverse())
 }
 
-function transposePrimeGrid(grid) {
-	return grid[0].map((_, colIndex) => grid.map(row => row[colIndex]));
+function rotateGrid(grid, right=1) {
+	return grid[0].map((_, i) => {
+		if (right) return grid.map(row => row[i]).reverse();
+		else return grid.map(row => row[row.length-1-i]);
+	});
 }
 
 function randomNums(grid) {
 	let options = [];
-	for (let i = 0; i < grid.length; i++) {
-		for (let j = 0; j < grid.length; j++) {
-			if(grid[i][j] == 0) options.push([i, j])
-		}
-	}
+	grid.forEach((row,i) => { row.forEach((_,j) => { if(row[j] == 0) options.push([i,j]) })});
 
-	if(options.length > 0) {
-		let r = Math.random() > 0.5 ? 2 : 4; 
-		let [x, y] = options[Math.floor(Math.random()*options.length)] 
-		grid[x][y] = r;
-	}
-
+	if(options.length <= 0) return grid; 
+	let [i,j] = options[Math.floor(Math.random()*options.length)]; 
+	grid[i][j] = Math.random() > 0.5 ? 2 : 4;
 	return grid;
 }
 
@@ -46,7 +42,7 @@ function moveElems(grid) {
 				pairs.push(j);
 				if (pairs.length > 1) {
 					if(grid[i][pairs[0]] == grid[i][pairs[1]]) {
-						let[a, b] = pairs;
+						let [a, b] = pairs;
 						grid[i][a] = grid[i][a] + grid[i][b];
 						grid[i][b] = 0;
 						midxs.push([i, a]);
@@ -71,8 +67,7 @@ function moveElems(grid) {
 		}
 	}
 
-	total += updateScore(grid, midxs)
-
+	total += updateScore(grid, midxs);
 	return grid; 
 }
 
@@ -87,7 +82,7 @@ function drawGrid(grid) {
 	}
 }
 
-function updateGame(grid, e) { 
+function updateGrid(grid, e) { 
 	if(e.keyCode == codes[0]) {
 		grid = moveElems(grid);	
 	} else if(e.keyCode == codes[1]) {
@@ -95,15 +90,14 @@ function updateGame(grid, e) {
 		grid = moveElems(grid);
 		grid = reverseGrid(grid);
 	} else if (e.keyCode == codes[2]) {
-		grid = transposePrimeGrid(grid);
+		grid = rotateGrid(grid, 0);
 		grid = moveElems(grid);
-		grid = transposePrimeGrid(grid);
+		grid = rotateGrid(grid);
 	} else if (e.keyCode == codes[3]) {
-		grid = reverseGrid(transposePrimeGrid(grid));
+		grid = rotateGrid(grid);
 		grid = moveElems(grid);
-		grid = transposePrimeGrid(reverseGrid(grid));
+		grid = rotateGrid(grid, 0);
 	}
-
 	return grid;
 }
 
@@ -114,21 +108,18 @@ let grid = [
 	[0,0,0,0]
 ];
 
-randomNums(grid);
-randomNums(grid);
+grid = randomNums(grid);
+grid = randomNums(grid);
 drawGrid(grid);
 
 codes = [39, 37, 40, 38]
 document.addEventListener('keydown', function(e) {
 	if(codes.includes(e.keyCode)) {	
-		grid = updateGame(grid, e);
+		grid = updateGrid(grid, e);
 		grid = randomNums(grid);
 		drawGrid(grid);
 		score.innerHTML = `Play 2048: ${total}`;
 	}
 })
-
-
-
 
 
