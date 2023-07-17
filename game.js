@@ -17,20 +17,10 @@ function rotateGrid(grid, right=1) {
 function randomNums(grid) {
 	let options = [];
 	grid.forEach((row,i) => { row.forEach((_,j) => { if(row[j] == 0) options.push([i,j]) })});
-
 	if(options.length <= 0) return grid; 
 	let [i,j] = options[Math.floor(Math.random()*options.length)]; 
 	grid[i][j] = Math.random() > 0.5 ? 2 : 4;
 	return grid;
-}
-
-function updateScore(grid, midxs) {
-	let s = 0;
-	for(let m = 0; m < midxs.length; m++) {
-		let [i, j] = midxs[m];
-		s += grid[i][j];
-	}
-	return s;
 }
 
 function moveElems(grid) {
@@ -67,7 +57,10 @@ function moveElems(grid) {
 		}
 	}
 
-	total += updateScore(grid, midxs);
+	midxs.forEach((m) => { 
+		let [i,j] = m;
+		total += grid[i][j];
+	})
 	return grid; 
 }
 
