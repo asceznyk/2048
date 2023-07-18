@@ -27,28 +27,22 @@ function moveElems(grid) {
 	midxs = [];
 	for (let i = 0; i < grid.length; i++) {
 		let pairs = []
-		for (let j = grid[i].length-1; j >= 0; j--){
-			if(grid[i][j] != 0){
-				pairs.push(j);
-				if (pairs.length > 1) {
-					if(grid[i][pairs[0]] == grid[i][pairs[1]]) {
-						let [a, b] = pairs;
-						grid[i][a] = grid[i][a] + grid[i][b];
-						grid[i][b] = 0;
-						midxs.push([i, a]);
-						pairs = [];
-					} else {
-						pairs.shift();
-					}
-				}
-			}
+		for (let j = grid[i].length-1; j >= 0; j--) {
+			if (!grid[i][j]) continue;
+			pairs.push(j);
+			if (pairs.length <= 1) continue;
+			let [a, b] = pairs;
+			if (grid[i][a] != grid[i][b]) { pairs.shift(); continue; }
+			grid[i][a] = grid[i][a] + grid[i][b];
+			grid[i][b] = 0;
+			midxs.push([i, a]);
+			pairs = [];
 		}
 
 		let zeroidx = null;
 		for (let j = grid[i].length-1; j >= 0; j--) {
-			if(grid[i][j] == 0 && zeroidx == null) {
-				zeroidx = j;
-			} else if(grid[i][j] != 0 && zeroidx != null) {
+			if (grid[i][j] == 0 && zeroidx == null) zeroidx = j;
+			else if (grid[i][j] != 0 && zeroidx != null) {
 				grid[i][zeroidx] = grid[i][j];
 				grid[i][j] = 0;
 				j = grid[i].length-1;
