@@ -31,17 +31,17 @@ function randomFill(grid) {
 function mergeMove(grid) {
 	let midxs = [];
 	for (let i = 0; i < grid.length; i++) {
-		let pairs = []
+		let pair = []
 		for (let j = grid[i].length-1; j >= 0; j--) {
 			if (!grid[i][j]) continue;
-			pairs.push(j);
-			if (pairs.length <= 1) continue;
-			let [a, b] = pairs;
-			if (grid[i][a] != grid[i][b]) { pairs.shift(); continue; }
+			pair.push(j);
+			if (pair.length <= 1) continue;
+			let [a, b] = pair;
+			if (grid[i][a] != grid[i][b]) { pair.shift(); continue; }
 			grid[i][a] = grid[i][a] + grid[i][b];
 			grid[i][b] = 0;
 			midxs.push([i, a]);
-			pairs = [];
+			pair = [];
 		}
 
 		let k = null;
