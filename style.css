@@ -1,35 +1,35 @@
 body, html {
-	margin : 0px;
-	font-family: system-ui;
-	font-size: 15px;
+  margin : 0px;
+  font-family: system-ui;
+  font-size: 15px;
 }
 
 .wrapper {
-	max-width: 400px;
-	margin: 10px auto;
+  max-width: 400px;
+  margin: 10px auto;
 }
 
 .header {
 }
 
 .container {
-	background:#000;
+  background:#000;
 }
 
 .row {
-	width: inherit;
-	height: inherit;
+  width: inherit;
+  height: inherit;
 }
 
 .cell {
-	width: 100px;
-	height: 100px;
-	margin: 0px;
-	display: inline-flex;
-	color: #fff;
-	font-size: 25px;
-	justify-content: center;
-	align-items: center;
+  width: 100px;
+  height: 100px;
+  margin: 0px;
+  display: inline-flex;
+  color: #fff;
+  font-size: 25px;
+  justify-content: center;
+  align-items: center;
 }
 
 
