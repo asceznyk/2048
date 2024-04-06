@@ -43,7 +43,6 @@ function mergeMove(grid) {
       midxs.push([i, a]);
       pair = [];
     }
-
     let k = null;
     for (let j = grid[i].length-1; j >= 0; j--) {
       if (!grid[i][j] && k == null) k = j;
@@ -55,7 +54,6 @@ function mergeMove(grid) {
       }
     }
   }
-
   midxs.forEach((m) => { 
     let [i,j] = m;
     total += grid[i][j];
