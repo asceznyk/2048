@@ -29,10 +29,9 @@ function randomFill(grid) {
 }
 
 function mergeMove(grid) {
-  let midxs = [];
   for (let i = 0; i < grid.length; i++) {
     let pair = []
-    for (let j = grid[i].length-1; j >= 0; j--) {
+    for (let j = grid[i].length-1; j > -1; j--) {
       if (!grid[i][j]) continue;
       pair.push(j);
       if (pair.length <= 1) continue;
@@ -40,24 +39,18 @@ function mergeMove(grid) {
       if (grid[i][a] != grid[i][b]) { pair.shift(); continue; }
       grid[i][a] = grid[i][a] + grid[i][b];
       grid[i][b] = 0;
-      midxs.push([i, a]);
+      total += grid[i][a];
       pair = [];
     }
-    let k = null;
-    for (let j = grid[i].length-1; j >= 0; j--) {
-      if (!grid[i][j] && k == null) k = j;
-      else if (grid[i][j] && k != null) {
-        grid[i][k] = grid[i][j];
-        grid[i][j] = 0;
-        j = grid[i].length-1;
-        k = null;
-      }
+    let k = grid[i].length-1;
+    while(grid[i][k]) k--;
+    for (let j = k; j >= 0; j--) {
+      if (!grid[i][j]) continue;
+      grid[i][k] = grid[i][j];
+      grid[i][j] = 0;
+      k--;
     }
   }
-  midxs.forEach((m) => { 
-    let [i,j] = m;
-    total += grid[i][j];
-  })
   return grid; 
 }
 
